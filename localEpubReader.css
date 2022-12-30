@@ -1,0 +1,143 @@
+.h1 a, .h2 a, .h3 a, .h4 a, .h5 a, .h6 a {
+    color: #021691;
+    outline: none!important;
+    text-decoration: none!important;
+    cursor: default!important; 
+}
+.h1 {
+    font-weight:bold;
+    margin-bottom: 2px;
+}
+.h2 {
+    font-weight:bold;
+    margin: 8px;
+    margin-bottom: 2px;
+}
+.h3 {
+    font-size:95%;
+    margin:4px; 
+}
+.h4, .h5, .h6 {
+    font-size:85%;
+    margin: 1px;
+}
+.h1 { margin-left: 0em; }
+.h2 { margin-left: 1em; }
+.h3 { margin-left: 2em; }
+.h4 { margin-left: 3em; }
+.h5 { margin-left: 4em; }
+.h6 { margin-left: 5em; }
+
+.epub-main {
+  width: 800px;
+  margin: 20px auto 0;
+  color: #595959;
+}
+.epub-main .epub-chapter:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding-top: 50px!important;
+}
+.epub-main .epub-chapter:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding-bottom: 50px!important;
+}
+.epub-main .epub-chapter {
+  width: 800px;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding: 10px 65px;
+  transition: background-color 0.4s;
+  min-height: 100vh;
+}
+.epub-main .epub-chapter div {
+  margin: 10px 0!important;
+  line-height: 1.75em !important;
+}
+.epub-main .epub-chapter pre {
+  white-space: inherit!important;
+}
+.epub-main .epub-chapter p {
+  margin: 10px 0!important;
+  line-height: 1.75em !important;
+  text-align: justify;
+  text-indent: 2em;
+  word-break: normal!important;
+  word-wrap: break-word !important;
+}
+.epub-main .epub-chapter p[name="Img.Table.Desc"] {
+  font-size: 0.88em !important;
+  text-align: left!important;
+}
+.epub-main .epub-chapter p[name="Img.Normal.Title"],
+.epub-main .epub-chapter p[name="Img.Table.Title"] {
+  font-size: 0.88em !important;
+  text-align: center!important;
+}
+.epub-main .epub-chapter img {
+  max-width: 100%!important;
+  margin: 0 auto!important;
+  object-fit: contain!important;
+  max-height: 840px !important;
+  cursor: pointer!important;
+  pointer-events: none;
+}
+.epub-main .epub-chapter img + p {
+  text-align: center!important;
+}
+.epub-main .epub-chapter img.block {
+  object-fit: contain;
+  cursor: pointer;
+  break-inside: avoid;
+  display: block;
+  page-break-inside: "avoid";
+}
+.epub-main .epub-chapter img[name="InlineImg"] {
+  display: inline-block !important;
+  vertical-align: text-top !important;
+}
+.epub-main .epub-chapter h1,
+.epub-main .epub-chapter h2,
+.epub-main .epub-chapter h3,
+.epub-main .epub-chapter h4,
+.epub-main .epub-chapter h5,
+.epub-main .epub-chapter h6 {
+  font-size: 100%!important;
+  text-align: left!important;
+  border: 0!important;
+  margin: 20px 0 0px!important;
+  font-weight: bold!important;
+  line-height: 1.75em !important;
+}
+.epub-main .epub-chapter h1 {
+  font-size: 200%!important;
+}
+.epub-main .epub-chapter h2 {
+  font-size: 150%!important;
+}
+.epub-main .epub-chapter h3 {
+  font-size: 120%!important;
+}
+.epub-main .epub-chapter a:link,
+.epub-main .epub-chapter a:visited {
+  color: #021691;
+  outline: none!important;
+  text-decoration: none!important;
+  cursor: default!important; 
+  #pointer-events: none;
+}
+.epub-main .epub-chapter span {
+  font-size: inherit!important;
+  font-weight: inherit!important;
+  line-height: inherit!important;
+}
+.epub-main .epub-chapter .high-light {
+  background: rgba(0, 194, 128, 0.5);
+}
+body,
+html {
+    font-family: PingFang SC, HarmonyOS_Regular, Source Han Serif, Helvetica Neue, Microsoft YaHei, sans-serif, Helvetica, Arial, sans-serif, wbfan, !important;
+  #margin: 0!important;
+  #padding: 0!important;
+}

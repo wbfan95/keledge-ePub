@@ -26,7 +26,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys # press page down
-from selenium.webdriver.common.proxy import Proxy, ProxyType
+# from selenium.webdriver.common.proxy import Proxy, ProxyType
 
 from bs4 import BeautifulSoup as bs
 from lxml import etree
@@ -35,8 +35,14 @@ import urllib.request
 
 class kezhi_epub():
 
-    def __init__(self, url):
-        self.root = r'D:\keledgeEPUB\\'
+    def __init__(self, url,
+                 root=r'D:\keledgeEPub',
+                 cookie_path='',
+                 chrome_exe_path=r'D:\Program Files\Chrome\chromedriver.exe'):
+        self.root = root
+        self.cookie_path = cookie_path
+        self.chrome_exe_path = chrome_exe_path
+
         self.init_logger()
         self.init_browser()
 
@@ -86,17 +92,14 @@ class kezhi_epub():
         prefs = {"profile.managed_default_content_settings.images": 2} # disable images
         options.add_experimental_option("prefs", prefs)
 
-        prox = Proxy()
-        prox.proxy_type = ProxyType.MANUAL
-        prox.http_proxy = "127.0.0.1:10503"
-        # prox.socks_proxy = "127.0.0.1:10503"
-        # prox.ssl_proxy = "127.0.0.1:10503"
+        # prox = Proxy()
+        # prox.proxy_type = ProxyType.MANUAL
+        # prox.http_proxy = "127.0.0.1:80"
 
         # capabilities = webdriver.DesiredCapabilities.CHROME
         # prox.add_to_capabilities(capabilities)
 
-        executable_path = r'D:\Program Files\Chrome\chromedriver.exe'
-        s = Service(executable_path)
+        s = Service(self.chrome_exe_path)
         self.driver = webdriver.Chrome(
             ChromeDriverManager().install(),
             # service=s,
@@ -155,7 +158,7 @@ class kezhi_epub():
         # "chap01.html#TAGTAGTAG" -> "#TAGTAGTAG"
         for xref in soup.find_all('a', attrs={'href': True}):
             if '#' in xref['href'] and 'http' not in xref['href']:
-                xref['href'] = '#' + xref['href'].split('#')[-1]
+                xref['href'] = '#' + xref['href'].replace('#', '').replace('.', '')
 
         # get headings
         for heading in soup.find_all(re.compile("^h[1-6]$")) :
@@ -227,8 +230,7 @@ class kezhi_epub():
     def main(self):
         self.driver.get('https://www.keledge.com/login') # browse host before setting cookie
         # add cookies
-        cookie_path = r'keledge.com_cookies.txt'
-        self.load_cookies(cookie_path)
+        self.load_cookies(self.cookie_path)
         self.driver.get(self.url)
         element = WebDriverWait(self.driver, self.load_wait).until(
             EC.presence_of_element_located((By.CLASS_NAME, "epub-main"))
@@ -346,5 +348,7 @@ class kezhi_epub():
 
 if __name__ == '__main__':
     url = '*ePub reader link*'
-    a = kezhi_epub(url)
+    cookie_path = '*your cookie path*'
+    chrome_driver_path = '*you chrome driver path*'
+    a = kezhi_epub(url, cookie_path=cookie_path, chrome_exe_path=chrome_driver_path)
     a.main()

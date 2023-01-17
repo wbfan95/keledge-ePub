@@ -49,6 +49,7 @@ class kezhi_epub():
         self.url = url
 
         self.load_wait = 50
+        self.max_Ntries = 1000
 
         self.image_folder_name = 'images'
         self.toc_html_name = 'TOC.html'
@@ -157,7 +158,7 @@ class kezhi_epub():
         # restore all href
         # "chap01.html#TAGTAGTAG" -> "#TAGTAGTAG"
         for xref in soup.find_all('a', attrs={'href': True}):
-            if '#' in xref['href'] and 'http' not in xref['href']:
+            if '#' in xref['href'] and 'tp:' not in xref['href']:
                 xref['href'] = '#' + xref['href'].replace('#', '').replace('.', '')
 
         # get headings
@@ -165,6 +166,7 @@ class kezhi_epub():
             level_text = heading.name
             try:
                 hid = heading['id']
+                hid += secrets.token_hex(8)
             except KeyError:
                 logging.error(f'There is no ID for title: {level_text} - {heading.text}')
                 hid = secrets.token_hex(16) # len = 32
@@ -194,6 +196,7 @@ class kezhi_epub():
             level_text = heading.get('class')[0]
             try:
                 hid = heading['id']
+                hid += secrets.token_hex(8)
             except KeyError:
                 logging.error(f'There is no ID for title: {level_text} - {heading.text}')
                 hid = secrets.token_hex(16)  # len = 32
@@ -302,8 +305,9 @@ class kezhi_epub():
         )
 
         chapter_list = []
-        done = 0
-        while done < 5:
+        max_tries = 0
+        last_progress = 0.0
+        while max_tries < self.max_Ntries:
             # html = self.driver.execute_script("return document.documentElement.outerHTML;")
             epub_html = self.driver.find_element(By.XPATH, '//*[@id="epub-reader"]/div[4]/div[1]').get_attribute('outerHTML')
             soup = bs(epub_html, 'lxml')
@@ -334,8 +338,12 @@ class kezhi_epub():
             logging.info(f'Read progress: {prog_elem}')
 
             if float(prog_elem) >= 100:
-                done += 1
+                max_tries += 100 # a
                 # to scroll more
+
+            if float(prog_elem) - last_progress < 1e-4:
+                max_tries += 1
+                # if chrome scrolled more than self.max_Ntries times, the program will stop
 
             # do not sleep when there is no new chapter
             time.sleep(0.0)
